@@ -1,11 +1,10 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "telecalesyncer",
+	"name": "TeleCaleSyncer",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Plugin that synchronizes task lists and reminders in Telegram and Yandex calendar.",
+	"author": "milssky",
+	"authorUrl": "https://github.com/milssky/TeleCaleSync",
 	"isDesktopOnly": false
 }
