@@ -21,25 +21,34 @@ export class FileParser {
         const scheduleItems: ScheduleItem[] = [];
     
         for (const file of this.files) {
-            const scheduleItem = await this.processFile(file);
-            scheduleItems.push(scheduleItem);
+            const result = await this.processFile(file);
+            if (result.success) {
+                scheduleItems.push(result.scheduleItem!);
+            } else {
+                console.log("Unexpected reminder tag in file ", file.name);
+            }
         }
     
         return scheduleItems;
     }
     
-    private async processFile(file: TFile): Promise<ScheduleItem> {
-        let text = await this.app.vault.read(file);
-        const match = this.parseReminderTagRegex.exec(text);
-        
-        if (match) {
-            const reminderText = match.groups?.text;
-            const reminderDatetime = match.groups?.datetime;
-            return new ScheduleItem(reminderDatetime!, reminderText!);
-        } else {
-            console.log("fail");
-            throw new Error("Unexpected format");
+    private async processFile(file: TFile): Promise<{ success: boolean; scheduleItem?: ScheduleItem }> {
+        try {
+            let text = await this.app.vault.read(file);
+            const match = this.parseReminderTagRegex.exec(text);
+    
+            if (match) {
+                const reminderText = match.groups?.text;
+                const reminderDatetime = match.groups?.datetime;
+                const scheduleItem = new ScheduleItem(reminderDatetime!, reminderText!);
+                return { success: true, scheduleItem };
+            } else {
+                return { success: false };
+            }
+        } catch (error) {
+            return { success: false };
         }
     }
+    
     
 }
