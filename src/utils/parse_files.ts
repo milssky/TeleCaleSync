@@ -5,9 +5,7 @@ export class FileParser {
     private files: TFile[];
     private app: App
     
-    // parseReminderTagRegex = /```reminder(?<reminder>\s[\w*:\.\-_\s*\w*]+\s)```/;
-    parseReminderTagRegex = /```reminder\s+datetime:\s+(?<datetime>.+)\s+text:\s+(?<text>.+)\s*```/;
-    // parseReminderFieldsRegex = /datetime:\s+(?<datetime>.+)\s+text:\s+(?<text>.+)/;
+    parseReminderRegex = /```reminder\s+datetime:\s+(?<datetime>.+)\s+text:\s+(?<text>.+)\s*```/;
 
     constructor (
         files: TFile[],
@@ -35,7 +33,7 @@ export class FileParser {
     private async processFile(file: TFile): Promise<{ success: boolean; scheduleItem?: ScheduleItem }> {
         try {
             let text = await this.app.vault.read(file);
-            const match = this.parseReminderTagRegex.exec(text);
+            const match = this.parseReminderRegex.exec(text);
     
             if (match) {
                 const reminderText = match.groups?.text;
