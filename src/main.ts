@@ -15,7 +15,6 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 	settings: PluginSettings;
 	async onload() {
 		await this.loadSettings();
-
 		this. addCommand({
 			id: 'parse-reminders-from-vault',
 			name: 'Parse reminders from all MD files in vault',
