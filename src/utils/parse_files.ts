@@ -17,24 +17,29 @@ export class FileParser {
         this.app = app
     }
 
-    public proccessMDfiles() {
-        this.files.forEach(
-            (file, _) => this.processFile(file)
-        )
+    public async proccessMDfiles(): Promise<ScheduleItem[]> {
+        const scheduleItems: ScheduleItem[] = [];
+    
+        for (const file of this.files) {
+            const scheduleItem = await this.processFile(file);
+            scheduleItems.push(scheduleItem);
+        }
+    
+        return scheduleItems;
     }
-
-    private async processFile(file: TFile) {
+    
+    private async processFile(file: TFile): Promise<ScheduleItem> {
         let text = await this.app.vault.read(file);
         const match = this.parseReminderTagRegex.exec(text);
+        
         if (match) {
             const reminderText = match.groups?.text;
             const reminderDatetime = match.groups?.datetime;
-            console.log(reminderText);
-            console.log(reminderDatetime);
+            return new ScheduleItem(reminderDatetime!, reminderText!);
         } else {
-            console.log("fail")
+            console.log("fail");
+            throw new Error("Unexpected format");
         }
-        // TODO: вернуть объект вида "имя файла": "объект напоминания"
-
     }
+    
 }

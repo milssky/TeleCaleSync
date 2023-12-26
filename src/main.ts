@@ -15,14 +15,15 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 	settings: PluginSettings;
 	async onload() {
 		await this.loadSettings();
-		this. addCommand({
-			id: 'parse-reminders-from-vault',
-			name: 'Parse reminders from all MD files in vault',
-			callback: () => {
-				new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
-			}
-		});
-
+		// this. addCommand({
+		// 	id: 'parse-reminders-from-vault',
+		// 	name: 'Parse reminders from all MD files in vault',
+		// 	callback: () => {
+		// 		new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
+		// 	}
+		// });
+		let result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
+		console.log(result);
 		this.addSettingTab(new SettingTab(this.app, this));
 
 	}
