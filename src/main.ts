@@ -1,5 +1,7 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
 import { FileParser } from 'src/utils/parse_files';
+import { init_client } from './utils/tg';
+import TeleCaleSyncSettingTab from './settings';
 
 // Remember to rename these classes and interfaces!
  
@@ -26,10 +28,12 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 		// 		new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
 		// 	}
 		// });
-		let result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
+		const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
 		console.log(result);
-		console.log(this.settings.apiHash);
-		this.addSettingTab(new SettingTab(this.app, this));
+		// init_client(this.settings.apiHash, this.settings.apiId);
+		// console.log(this.settings.apiId);
+		// console.log(this.settings.apiHash);
+		this.addSettingTab(new TeleCaleSyncSettingTab(this.app, this));
 
 	}
 
@@ -47,48 +51,3 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 }
 
 
-class SettingTab extends PluginSettingTab {
-	plugin: TeleCaleSyncerPlugin;
-
-	constructor(app: App, plugin: TeleCaleSyncerPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const {containerEl} = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName('Datetime Format')
-			.setDesc('Datetime format string. Read moment.js docs.')
-			.addText(text => text
-				.setPlaceholder('Enter datetime format')
-				.setValue(this.plugin.settings.datetimeFormat)
-				.onChange(async (value) => {
-					this.plugin.settings.datetimeFormat = value;
-					await this.plugin.saveSettings();
-				}));
-		new Setting(containerEl)
-			.setName('API ID')
-			.setDesc('API ID string')
-			.addText(text => text
-				.setPlaceholder('Enter you API ID')
-				.setValue(this.plugin.settings.apiId)
-				.onChange(async (value) => {
-					this.plugin.settings.apiId = value;
-					await this.plugin.saveSettings();
-				}));
-		new Setting(containerEl)
-			.setName('API hash')
-			.setDesc('API hash string')
-			.addText(text => text
-				.setPlaceholder('Enter you API hash')
-				.setValue(this.plugin.settings.apiHash)
-				.onChange(async (value) => {
-					this.plugin.settings.apiHash = value;
-					await this.plugin.saveSettings();
-				}));
-	}
-}
