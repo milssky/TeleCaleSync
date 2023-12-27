@@ -1,8 +1,20 @@
-import TeleCaleSyncerPlugin from "./main";
+import TeleCaleSyncerPlugin from "../main";
 import { App, PluginSettingTab, Setting } from "obsidian";
 
+export interface PluginSettings {
+	datetimeFormat: string;
+	apiId: string;
+	apiHash: string;
+}
 
-export default class TeleCaleSyncSettingTab extends PluginSettingTab {
+export const DEFAULT_SETTINGS: PluginSettings = {
+	datetimeFormat: '',
+	apiId: '',
+	apiHash: ''
+}
+
+
+export class TeleCaleSyncSettingTab extends PluginSettingTab {
 	plugin: TeleCaleSyncerPlugin;
 
 	constructor(app: App, plugin: TeleCaleSyncerPlugin) {
