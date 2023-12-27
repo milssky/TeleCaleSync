@@ -5,10 +5,14 @@ import { FileParser } from 'src/utils/parse_files';
  
 interface PluginSettings {
 	datetimeFormat: string;
+	apiId: string;
+	apiHash: string;
 }
 
 const DEFAULT_SETTINGS: PluginSettings = {
-	datetimeFormat: ''
+	datetimeFormat: '',
+	apiId: '',
+	apiHash: ''
 }
 
 export default class TeleCaleSyncerPlugin extends Plugin {
@@ -24,6 +28,7 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 		// });
 		let result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
 		console.log(result);
+		console.log(this.settings.apiHash);
 		this.addSettingTab(new SettingTab(this.app, this));
 
 	}
@@ -65,6 +70,25 @@ class SettingTab extends PluginSettingTab {
 					this.plugin.settings.datetimeFormat = value;
 					await this.plugin.saveSettings();
 				}));
-		
+		new Setting(containerEl)
+			.setName('API ID')
+			.setDesc('API ID string')
+			.addText(text => text
+				.setPlaceholder('Enter you API ID')
+				.setValue(this.plugin.settings.apiId)
+				.onChange(async (value) => {
+					this.plugin.settings.apiId = value;
+					await this.plugin.saveSettings();
+				}));
+		new Setting(containerEl)
+			.setName('API hash')
+			.setDesc('API hash string')
+			.addText(text => text
+				.setPlaceholder('Enter you API hash')
+				.setValue(this.plugin.settings.apiHash)
+				.onChange(async (value) => {
+					this.plugin.settings.apiHash = value;
+					await this.plugin.saveSettings();
+				}));
 	}
 }
