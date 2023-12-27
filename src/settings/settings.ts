@@ -1,5 +1,6 @@
 import TeleCaleSyncerPlugin from "../main";
-import { App, PluginSettingTab, Setting } from "obsidian";
+import { App, ButtonComponent, PluginSettingTab, Setting } from "obsidian";
+import { UserLoginModal } from "./userLoginModal";
 
 export interface PluginSettings {
 	datetimeFormat: string;
@@ -57,5 +58,22 @@ export class TeleCaleSyncSettingTab extends PluginSettingTab {
 					this.plugin.settings.apiHash = value;
 					await this.plugin.saveSettings();
 				}));
+
+		const userLoginConstructor = (userLoginButton: ButtonComponent) => {
+			userLoginButton.setButtonText("Login telegram");
+			userLoginButton.onClick( async () => {
+					const userLoginModal = new UserLoginModal(this.plugin);
+					userLoginModal.onClose = async () => {
+						this.plugin.saveSettings()
+					}
+					userLoginModal.open();
+				}
+			)
+		}
+		
+		new Setting(containerEl)
+			.setName("User")
+			.setDesc("Connect telegram user")
+			.addButton(userLoginConstructor.bind(this))
 	}
 }
