@@ -20,7 +20,7 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 		// });
 		const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
 		console.log(result);
-		init_client(this.settings.apiHash, this.settings.apiId);
+		// init_client(this.settings.apiHash, this.settings.apiId);
 		// console.log(this.settings.apiId);
 		// console.log(this.settings.apiHash);
 		this.addSettingTab(new TeleCaleSyncSettingTab(this.app, this));
