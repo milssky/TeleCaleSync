@@ -1,6 +1,7 @@
 import { Modal, Setting } from "obsidian";
 import TeleCaleSyncerPlugin from "src/main";
 import { QRCode } from 'qrcode';
+import { initClient, signInWithQRCode } from "src/utils/tg";
 
 
 export class UserLoginModal extends Modal {
@@ -45,8 +46,23 @@ export class UserLoginModal extends Modal {
             .setDesc("Сгенерируйте QR код и отсканируйте телефоном.")
             .addButton((button) => {
                 button.setButtonText("Сгенерировать QR код");
-                
+                button.onClick(async () => {
+                    try {
+                        initClient(
+                            this.plugin.settings.apiHash, 
+                            this.plugin.settings.apiId, 
+                            this.qrCodeContainer, 
+                            this.password
+                        );
+                    } catch (e) {
+                        console.log(e);
+                    }
+
+                })
             });
+        this.qrCodeContainer = this.userLoginDiv.createDiv({
+            cls: "qr-code-container",
+        });
     }
 
     async display() {

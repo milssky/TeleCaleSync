@@ -24,6 +24,7 @@
 	"dependencies": {
 		"@types/qrcode": "^1.5.5",
 		"big-integer": "^1.6.52",
+		"qrcode": "^1.5.3",
 		"telegram": "^2.19.10"
 	}
 }

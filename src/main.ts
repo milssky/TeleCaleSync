@@ -1,6 +1,6 @@
 import { Plugin } from 'obsidian';
 import { FileParser } from 'src/utils/parse_files';
-import { init_client } from './utils/tg';
+import { initClient } from './utils/tg';
 import {TeleCaleSyncSettingTab, DEFAULT_SETTINGS, PluginSettings}  from './settings/settings';
 
 // Remember to rename these classes and interfaces!
@@ -20,7 +20,6 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 		// });
 		const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
 		console.log(result);
-		// await init_client(this.settings.apiHash, this.settings.apiId);
 		// console.log(this.settings.apiId);
 		// console.log(this.settings.apiHash);
 		this.addSettingTab(new TeleCaleSyncSettingTab(this.app, this));
