@@ -1,11 +1,13 @@
 import { TelegramClient, password} from "telegram";
-import { StringSession } from "telegram/sessions";
+import { StoreSession } from "telegram/sessions";
 import QRCode  from "qrcode";
 
 export async function initClient(apiHash, apiId, container: HTMLDivElement, password?: string) {
     console.log(apiId);
-    const client = new TelegramClient(new StringSession(""), parseInt(apiId), apiHash, {connectionRetries: 5, useWSS: true});
+    const client = new TelegramClient(new StoreSession("store_id"), parseInt(apiId), apiHash, {connectionRetries: 5, useWSS: true});
     await client.connect();
+    await client.session.load()
+    await client.sendMessage("me", {message: 'Hello1234' });
     await client.signInUserWithQrCode({ apiId, apiHash },
         {
               onError: async function(p1: Error) {
@@ -34,7 +36,8 @@ export async function initClient(apiHash, apiId, container: HTMLDivElement, pass
               }
           }
         );
-    // await client.sendMessage("me", {message: 'Hello'});
+    await client.session.save()
+    await client.sendMessage("me", {message: 'Hello' });
 }
 
 export async function signInWithQRCode(container: HTMLDivElement, password?: string) {
