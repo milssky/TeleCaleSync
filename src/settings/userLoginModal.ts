@@ -10,7 +10,7 @@ export class UserLoginModal extends Modal {
     password = "";
 
     constructor(public plugin: TeleCaleSyncerPlugin) {
-        super(plugin.app);
+        super(plugin.app); 
     }
 
     addHeader() {

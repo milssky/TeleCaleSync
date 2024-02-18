@@ -1,6 +1,7 @@
 import { Plugin } from 'obsidian';
 import { FileParser } from 'src/utils/parse_files';
-import { initClient } from './utils/tg';
+// import { initClient } from './utils/tg';
+import { TgClient } from './utils/tg';}
 import {TeleCaleSyncSettingTab, DEFAULT_SETTINGS, PluginSettings}  from './settings/settings';
 
 // Remember to rename these classes and interfaces!
@@ -9,6 +10,9 @@ import {TeleCaleSyncSettingTab, DEFAULT_SETTINGS, PluginSettings}  from './setti
 
 export default class TeleCaleSyncerPlugin extends Plugin {
 	settings: PluginSettings;
+	tgClient: TgClient;
+
+
 	async onload() {
 		await this.loadSettings();
 		// this. addCommand({
@@ -18,17 +22,17 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 		// 		new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
 		// 	}
 		// });
-		const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
-		console.log(result);
+		// const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
 		// console.log(this.settings.apiId);
 		// console.log(this.settings.apiHash);
 		this.addSettingTab(new TeleCaleSyncSettingTab(this.app, this));
-
+		// this.client = new TelegramClient(new StoreSession('${os.hostname()}_${getSessionId()}'), parseInt(apiId), apiHash, {connectionRetries: 5, useWSS: true});
 	}
 
 	onunload() {
 
 	}
+
 
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());

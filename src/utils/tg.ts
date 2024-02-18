@@ -7,7 +7,7 @@ export async function initClient(apiHash, apiId, container: HTMLDivElement, pass
     const client = new TelegramClient(new StoreSession("store_id"), parseInt(apiId), apiHash, {connectionRetries: 5, useWSS: true});
     await client.connect();
     await client.session.load()
-    await client.sendMessage("me", {message: 'Hello1234' });
+    // await client.sendMessage("me", {message: 'Hello1234' });
     await client.signInUserWithQrCode({ apiId, apiHash },
         {
               onError: async function(p1: Error) {
@@ -51,4 +51,13 @@ export async function signInWithQRCode(container: HTMLDivElement, password?: str
         container.removeChild(container.firstChild);
     }
     container.appendChild(svg);
+}
+
+export class TgClient {
+    constructor(
+        apiId: number,
+        apiHash: string
+    ) {
+
+    }
 }
