@@ -1,7 +1,7 @@
 import { Modal, Setting } from "obsidian";
 import TeleCaleSyncerPlugin from "src/main";
 import { QRCode } from 'qrcode';
-import { initClient, signInWithQRCode } from "src/utils/tg";
+
 
 
 export class UserLoginModal extends Modal {
