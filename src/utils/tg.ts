@@ -153,13 +153,22 @@ export class TgClient {
 		// await this.disconnect();
 	}
 
-	async send_message(message: string) {
+	async sendMessage(message: string) {
 		if (!this._client.connected) {
 			await this.connect();
 		}
 		if (!this._isConfigured) throw NotConfigurated;
-		await this._client.sendMessage("me", { message: message, schedule: 1708436184});
+		await this._client.sendMessage("me", { message: message});
 		await this.disconnect();
 	
+	}
+
+	async sendScheduledMessage(message: string, scheduleUnixTime: number) {
+		if (!this._client.connected) {
+			await this.connect();
+		}
+		if (!this._isConfigured) throw NotConfigurated;
+		await this._client.sendMessage("me", { message: message, schedule: scheduleUnixTime});
+		await this.disconnect();
 	}
 }

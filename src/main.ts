@@ -21,7 +21,7 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 			callback: () => {
 				this.tgClient.configureClient(this.settings.apiHash, this.settings.apiId);
 				// TODO Убрать заглушку
-				this.tgClient.send_message('parse_reminders_from_vault');  
+				this.tgClient.sendMessage('parse_reminders_from_vault');  
 			}
 		});
 		// const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
