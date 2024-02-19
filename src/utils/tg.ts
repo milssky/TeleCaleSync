@@ -2,7 +2,7 @@ import { TelegramClient, password } from "telegram";
 import { StoreSession } from "telegram/sessions";
 import QRCode from "qrcode";
 
-const NotConnected = new Error("Not connected to Telegram API");
+const NotConfigurated = new Error("Not connected to Telegram API");
 
 export async function initClient(
 	apiHash,
@@ -101,9 +101,7 @@ export class TgClient {
 	}
 
 	async connect() {
-		// if (!this._isConfigured && !this._client.connected) {
-		//     throw NotConnected;
-		// }
+		this._client.session.load();
 		await this._client.connect();
 	}
 
@@ -152,6 +150,16 @@ export class TgClient {
 			}
 		);
         this._client.session.save();
+		// await this.disconnect();
+	}
+
+	async send_message(message: string) {
+		if (!this._client.connected) {
+			await this.connect();
+		}
+		if (!this._isConfigured) throw NotConfigurated;
+		await this._client.sendMessage("me", { message: message, schedule: 1708436184});
 		await this.disconnect();
+	
 	}
 }
