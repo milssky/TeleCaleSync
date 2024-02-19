@@ -83,6 +83,11 @@ export class TgClient {
 	_client: TelegramClient;
 	_isConfigured = false;
 
+	constructor() {
+		console.log('Client created');
+	}
+
+
 	configureClient(apiHash, apiId) {
 		this.apiHash = apiHash;
 		this.apiId = apiId;
@@ -102,11 +107,14 @@ export class TgClient {
 		await this._client.connect();
 	}
 
+	async disconnect() {
+		await this._client.disconnect();
+	}
+
 	async loginWithQRCode(container: HTMLDivElement, password?: string) {
 		if (!this._client.connected) {
 			await this.connect();
 		}
-		await this._client.session.load();
 		await this._client.signInUserWithQrCode(
 			{ apiId: this.apiId, apiHash: this.apiHash },
 			{
@@ -143,5 +151,7 @@ export class TgClient {
 				},
 			}
 		);
+        this._client.session.save();
+		await this.disconnect();
 	}
 }

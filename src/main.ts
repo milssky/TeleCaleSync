@@ -1,7 +1,7 @@
 import { Plugin } from 'obsidian';
 import { FileParser } from 'src/utils/parse_files';
 // import { initClient } from './utils/tg';
-import { TgClient } from './utils/tg';}
+import { TgClient } from './utils/tg';
 import {TeleCaleSyncSettingTab, DEFAULT_SETTINGS, PluginSettings}  from './settings/settings';
 
 // Remember to rename these classes and interfaces!
@@ -27,6 +27,7 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 		// console.log(this.settings.apiHash);
 		this.addSettingTab(new TeleCaleSyncSettingTab(this.app, this));
 		// this.client = new TelegramClient(new StoreSession('${os.hostname()}_${getSessionId()}'), parseInt(apiId), apiHash, {connectionRetries: 5, useWSS: true});
+		this.tgClient = new TgClient();
 	}
 
 	onunload() {

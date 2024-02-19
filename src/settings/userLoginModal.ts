@@ -48,10 +48,18 @@ export class UserLoginModal extends Modal {
                 button.setButtonText("Сгенерировать QR код");
                 button.onClick(async () => {
                     try {
-                        initClient(
-                            this.plugin.settings.apiHash, 
-                            this.plugin.settings.apiId, 
-                            this.qrCodeContainer, 
+                        // initClient(
+                        //     this.plugin.settings.apiHash, 
+                        //     this.plugin.settings.apiId, 
+                        //     this.qrCodeContainer, 
+                        //     this.password
+                        // );
+                        this.plugin.tgClient.configureClient(
+                            this.plugin.settings.apiHash,
+                            this.plugin.settings.apiId
+                        );
+                        await this.plugin.tgClient.loginWithQRCode(
+                            this.qrCodeContainer,
                             this.password
                         );
                     } catch (e) {
