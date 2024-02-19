@@ -20,7 +20,7 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 			name: 'Parse reminders from all MD files in vault',
 			callback: () => {
 				this.tgClient.configureClient(this.settings.apiHash, this.settings.apiId);
-				// TODO Убрать заглушку
+				// TODO: Убрать заглушку
 				this.tgClient.sendMessage('parse_reminders_from_vault');  
 			}
 		});

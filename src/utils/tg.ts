@@ -1,4 +1,4 @@
-import { TelegramClient, password } from "telegram";
+import { TelegramClient} from "telegram";
 import { StoreSession } from "telegram/sessions";
 import QRCode from "qrcode";
 
@@ -14,12 +14,14 @@ export class TgClient {
 		console.log('Client created');
 	}
 
-
 	configureClient(apiHash, apiId) {
 		this.apiHash = apiHash;
 		this.apiId = apiId;
+		/* 
+		TODO: Заменить на генерацию уникальной сессии для АРМ 
+		*/
 		this._client = new TelegramClient(
-			new StoreSession("store_id"), //TODO изменить на генератор ID
+			new StoreSession("store_id"),
 			parseInt(apiId),
 			apiHash,
 			{ connectionRetries: 5, useWSS: true }
