@@ -1,6 +1,7 @@
 import { TelegramClient} from "telegram";
 import { StoreSession } from "telegram/sessions";
-import QRCode from "qrcode";
+// import QRCode from "qrcode";
+import * as QRCode from "qrcode";
 
 const NotConfigurated = new Error("Not connected to Telegram API");
 
@@ -14,7 +15,7 @@ export class TgClient {
 		console.log('Client created');
 	}
 
-	configureClient(apiHash, apiId) {
+	configureClient(apiHash: any, apiId: any) {
 		this.apiHash = apiHash;
 		this.apiId = apiId;
 		/* 

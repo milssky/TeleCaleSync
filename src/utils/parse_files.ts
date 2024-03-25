@@ -53,7 +53,7 @@ export class FileParser {
 
 	async processCurrentOpenedMDfile(): Promise<ScheduleItem> {
 		const file = this.app.workspace.getActiveFile();
-		const result = await this.processFile(file);
+		const result = await this.processFile(file!);
 		const { scheduleItem } = result;
 		if (scheduleItem != undefined) {
 			return scheduleItem
