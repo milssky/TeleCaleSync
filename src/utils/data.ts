@@ -8,9 +8,10 @@ export class ScheduleItem {
 
     constructor(
         date: string,
-        text: string
+        text: string,
+		dateFormat: string = "DD.MM.YYYY HH:mm"
     ) {
-        this.datetime = moment(date, "YY-MM-DD hh:mm:ss")
+        this.datetime = moment(date, dateFormat)
         this.text = text;
     }
 }

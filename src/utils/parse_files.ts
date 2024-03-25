@@ -3,16 +3,19 @@ import { ScheduleItem } from "src/utils/data";
 
 export class FileParser {
     private files: TFile[];
-    private app: App
-    
+    private app: App;
+    private datetimeFormat: string;
+
     parseReminderRegex = /```reminder\s+datetime:\s+(?<datetime>.+)\s+text:\s+(?<text>.+)\s*```/;
 
     constructor (
         files: TFile[],
-        app: App
+        app: App,
+		datetimeFormat: string
     ) {
         this.files = files;
-        this.app = app
+        this.app = app;
+		this.datetimeFormat = datetimeFormat;
     }
 
     public async proccessMDfiles(): Promise<ScheduleItem[]> {
@@ -38,7 +41,7 @@ export class FileParser {
             if (match) {
                 const reminderText = match.groups?.text;
                 const reminderDatetime = match.groups?.datetime;
-                const scheduleItem = new ScheduleItem(reminderDatetime!, reminderText!);
+                const scheduleItem = new ScheduleItem(reminderDatetime!, reminderText!, this.datetimeFormat);
                 return { success: true, scheduleItem };
             } else {
                 return { success: false };

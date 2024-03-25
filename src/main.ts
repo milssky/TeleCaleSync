@@ -20,25 +20,23 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 			name: 'Parse reminders from all MD files in vault',
 			callback: async () => {
 				this.tgClient.configureClient(this.settings.apiHash, this.settings.apiId);
-				// TODO: Убрать заглушку
-				const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
-				console.log(result);
-				// this.tgClient.sendMessage('parse_reminders_from_vault');  
-			}
+				const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app, this.settings.datetimeFormat).proccessMDfiles();
+				for(const item in result) {
+					await this.tgClient.sendScheduledMessage(result[item].text, result[item].datetime.unix());
+				}
+			}	
 		});
 		this.addCommand({
 			id: 'parse-reminder-from-current-file',
 			name: 'Parse reminder from current MD file',
 			callback: async () => {
-				const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).processCurrentOpenedMDfile();
+				const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app, this.settings.datetimeFormat).processCurrentOpenedMDfile();
 				console.log(result);
+				this.tgClient.configureClient(this.settings.apiHash, this.settings.apiId);
+				await this.tgClient.sendScheduledMessage(result.text, result.datetime.unix());
 			}
 		});
-		// const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
-		// console.log(this.settings.apiId);
-		// console.log(this.settings.apiHash);
 		this.addSettingTab(new TeleCaleSyncSettingTab(this.app, this));
-		// this.client = new TelegramClient(new StoreSession('${os.hostname()}_${getSessionId()}'), parseInt(apiId), apiHash, {connectionRetries: 5, useWSS: true});
 		this.tgClient = new TgClient();
 	}
 

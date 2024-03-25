@@ -79,7 +79,7 @@ export class TgClient {
 			}
 		);
         this._client.session.save();
-		// await this.disconnect();
+		await this.disconnect();
 	}
 
 	async sendMessage(message: string) {
