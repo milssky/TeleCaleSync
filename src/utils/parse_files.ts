@@ -30,7 +30,7 @@ export class FileParser {
         return scheduleItems;
     }
     
-    async processFile(file: TFile): Promise<{ success: boolean; scheduleItem?: ScheduleItem }> {
+    private async processFile(file: TFile): Promise<{ success: boolean; scheduleItem?: ScheduleItem }> {
         try {
             let text = await this.app.vault.read(file);
             const match = this.parseReminderRegex.exec(text);
@@ -47,6 +47,17 @@ export class FileParser {
             return { success: false };
         }
     }
+
+	async processCurrentOpenedMDfile(): Promise<ScheduleItem> {
+		const file = this.app.workspace.getActiveFile();
+		const result = await this.processFile(file);
+		const { scheduleItem } = result;
+		if (scheduleItem != undefined) {
+			return scheduleItem
+		}
+		console.log('Error');
+		throw Error('Error');
+	}
     
     
 }

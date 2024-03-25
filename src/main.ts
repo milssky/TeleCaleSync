@@ -30,8 +30,7 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 			id: 'parse-reminder-from-current-file',
 			name: 'Parse reminder from current MD file',
 			callback: async () => {
-				//TODO: Нужна переработка интерфейса парсера одиночного файла.
-				const result = await new FileParser(this.app.workspace.getActiveFile(), this.app).processFile(this.app.workspace.getActiveFile());
+				const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).processCurrentOpenedMDfile();
 				console.log(result);
 			}
 		});
