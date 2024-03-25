@@ -30,7 +30,7 @@ export class FileParser {
         return scheduleItems;
     }
     
-    private async processFile(file: TFile): Promise<{ success: boolean; scheduleItem?: ScheduleItem }> {
+    async processFile(file: TFile): Promise<{ success: boolean; scheduleItem?: ScheduleItem }> {
         try {
             let text = await this.app.vault.read(file);
             const match = this.parseReminderRegex.exec(text);

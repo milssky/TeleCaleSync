@@ -15,13 +15,24 @@ export default class TeleCaleSyncerPlugin extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
-		this. addCommand({
+		this.addCommand({
 			id: 'parse-reminders-from-vault',
 			name: 'Parse reminders from all MD files in vault',
-			callback: () => {
+			callback: async () => {
 				this.tgClient.configureClient(this.settings.apiHash, this.settings.apiId);
 				// TODO: Убрать заглушку
-				this.tgClient.sendMessage('parse_reminders_from_vault');  
+				const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
+				console.log(result);
+				// this.tgClient.sendMessage('parse_reminders_from_vault');  
+			}
+		});
+		this.addCommand({
+			id: 'parse-reminder-from-current-file',
+			name: 'Parse reminder from current MD file',
+			callback: async () => {
+				//TODO: Нужна переработка интерфейса парсера одиночного файла.
+				const result = await new FileParser(this.app.workspace.getActiveFile(), this.app).processFile(this.app.workspace.getActiveFile());
+				console.log(result);
 			}
 		});
 		// const result = await new FileParser(this.app.vault.getMarkdownFiles(), this.app).proccessMDfiles();
