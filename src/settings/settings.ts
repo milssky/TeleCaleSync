@@ -9,7 +9,7 @@ export interface PluginSettings {
 }
 
 export const DEFAULT_SETTINGS: PluginSettings = {
-	datetimeFormat: '',
+	datetimeFormat: 'DD.MM.YYYY HH:mm',
 	apiId: '',
 	apiHash: ''
 }
